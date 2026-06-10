@@ -1,0 +1,34 @@
+<template>
+    <div class="side-panel">
+        <div class="panel-header">
+            <h3>Payment History — #{booking.Booking_Number__c}</h3>
+            <button onclick={handleClose}>✕</button>
+        </div>
+        <div class="panel-body">
+            <div class="booking-summary">
+                <div class="summary-row"><span>Customer</span><strong>{booking.Contact__r.FirstName} {booking.Contact__r.LastName}</strong></div>
+                <div class="summary-row"><span>Model</span><strong>{booking.Model__r.Name}</strong></div>
+                <div class="summary-row"><span>Total Amount</span><strong>₹{totalFormatted}</strong></div>
+                <div class="summary-row"><span>Total Paid</span><strong class="paid">₹{paidFormatted}</strong></div>
+                <div class="summary-row"><span>Remaining</span><strong class="remaining">₹{remainingFormatted}</strong></div>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-bar">
+                    <div class="progress-fill" style={progressStyle}></div>
+                </div>
+                <span class="progress-label">{paymentPercent}% paid</span>
+            </div>
+            <template if:true={loadingPayments}><div class="loading-sm"><div class="spinner-sm"></div> Loading...</div></template>
+            <template if:true={noPayments}><div class="empty-small">No payments yet</div></template>
+            <template for:each={payments} for:item="p">
+                <div key={p.Id} class="payment-row">
+                    <div>
+                        <div class="p-method">{p.Payment_Method__c}</div>
+                        <div class="p-date">{p.Payment_Date__c}</div>
+                    </div>
+                    <div class="p-amount">₹{p.amountFormatted}</div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

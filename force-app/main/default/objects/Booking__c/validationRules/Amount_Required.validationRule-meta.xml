@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amount_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+  Total_Booking_Amount__c &lt;= 100000,
+  Total_Booking_Amount__c &gt; 5000000,
+  Total_Booking_Amount__c &lt; Variant__r.Price__c * 0.5
+)</errorConditionFormula>
+    <errorDisplayField>Total_Booking_Amount__c</errorDisplayField>
+    <errorMessage>Booking amount must be between ₹1,00,000 and ₹50,00,000 and at least 50% of the variant price</errorMessage>
+</ValidationRule>

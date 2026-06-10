@@ -1,0 +1,45 @@
+<template>
+    <div class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Review Booking — #{booking.Booking_Number__c}</h3>
+                <button class="close-btn" onclick={handleClose}>✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-info">
+                    <div class="info-row"><span>Customer</span><strong>{booking.Contact__r.FirstName} {booking.Contact__r.LastName}</strong></div>
+                    <div class="info-row"><span>Phone</span><strong>{booking.Contact__r.Phone}</strong></div>
+                    <div class="info-row"><span>Model</span><strong>{booking.Model__r.Name}</strong></div>
+                    <div class="info-row"><span>Variant</span><strong>{booking.Variant__r.Name}</strong></div>
+                    <div class="info-row"><span>Amount</span><strong>₹{amountFormatted}</strong></div>
+                    <div class="info-row"><span>Booking Date</span><strong>{booking.Booking_Date__c}</strong></div>
+                    <div class="info-row"><span>Sales Exec</span><strong>{booking.Owner.Name}</strong></div>
+                </div>
+
+                <div class="action-section">
+                    <button class="btn-approve" onclick={approveBooking} disabled={processing}>
+                        <template if:true={processing}>Processing...</template>
+                        <template if:false={processing}>✅ Approve Booking</template>
+                    </button>
+                </div>
+
+                <div class="reject-section">
+                    <label class="reject-label">Rejection Reason (required to reject)</label>
+                    <textarea class="reject-input" value={rejectionReason}
+                        onchange={handleReason}
+                        placeholder="Enter reason for rejection..."></textarea>
+                    <button class="btn-reject" onclick={rejectBooking} disabled={processing}>
+                        ❌ Reject Booking
+                    </button>
+                </div>
+
+                <template if:true={successMsg}>
+                    <div class="success-msg">{successMsg}</div>
+                </template>
+                <template if:true={errorMsg}>
+                    <div class="error-msg">{errorMsg}</div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

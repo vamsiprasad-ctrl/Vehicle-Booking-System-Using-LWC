@@ -1,0 +1,56 @@
+<template>
+    <div class="profile-panel">
+        <div class="panel-header">
+            <h3>Customer Profile</h3>
+            <button onclick={handleClose}>✕</button>
+        </div>
+        <template if:true={loading}>
+            <div class="loading-wrap"><div class="spinner"></div> Loading...</div>
+        </template>
+        <template if:false={loading}>
+            <template if:true={profile}>
+                <div class="panel-body">
+                    <div class="profile-hero">
+                        <div class="profile-avatar">{initial}</div>
+                        <div>
+                            <div class="profile-name">{profile.contact.FirstName} {profile.contact.LastName}</div>
+                            <div class="profile-email">{profile.contact.Email}</div>
+                            <div class="profile-phone">{profile.contact.Phone}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-box"><div class="stat-n">{bookingCount}</div><div class="stat-l">Bookings</div></div>
+                        <div class="stat-box"><div class="stat-n">{tdCount}</div><div class="stat-l">Test Drives</div></div>
+                        <div class="stat-box"><div class="stat-n">{paymentCount}</div><div class="stat-l">Payments</div></div>
+                    </div>
+
+                    <div class="section-title">Recent Bookings</div>
+                    <template for:each={profile.bookings} for:item="b">
+                        <div key={b.Id} class="mini-row">
+                            <div>
+                                <div class="mini-title">{b.Model__r.Name} — {b.Variant__r.Name}</div>
+                                <div class="mini-sub">#{b.Booking_Number__c}</div>
+                            </div>
+                            <span class={b.statusClass}>{b.Status__c}</span>
+                        </div>
+                    </template>
+
+                    <div class="section-title">Send Email</div>
+                    <input type="text" class="email-subject"
+                           placeholder="Subject"
+                           value={emailSubject}
+                           onchange={handleSubject}/>
+                    <textarea class="email-body"
+                              placeholder="Message..."
+                              value={emailBody}
+                              onchange={handleBody}></textarea>
+                    <button class="btn-send" onclick={sendEmail}>📧 Send Email</button>
+                    <template if:true={emailSuccess}>
+                        <div class="success-msg">Email sent successfully!</div>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </div>
+</template>

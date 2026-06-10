@@ -1,0 +1,83 @@
+<template>
+    <footer class="portal-footer">
+        <div class="footer-top">
+            <div class="footer-inner">
+
+                <div class="footer-brand">
+                    <div class="brand-row">
+                        <div class="brand-logo">T</div>
+                        <div>
+                            <div class="brand-name">Tata Motors</div>
+                            <div class="brand-tag">Connecting Aspirations</div>
+                        </div>
+                    </div>
+                    <p class="brand-desc">
+                        India's leading automobile manufacturer, delivering world-class
+                        vehicles and unmatched ownership experience since 1945.
+                    </p>
+                    <div class="social-row">
+                        <span class="social-btn"><i class="ti ti-brand-facebook" aria-hidden="true"></i></span>
+                        <span class="social-btn"><i class="ti ti-brand-twitter" aria-hidden="true"></i></span>
+                        <span class="social-btn"><i class="ti ti-brand-instagram" aria-hidden="true"></i></span>
+                        <span class="social-btn"><i class="ti ti-brand-youtube" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="col-title">Quick Links</h4>
+                    <ul class="col-list">
+                        <li onclick={goHome}><i class="ti ti-chevron-right" aria-hidden="true"></i>Home</li>
+                        <li onclick={goModels}><i class="ti ti-chevron-right" aria-hidden="true"></i>Explore Models</li>
+                        <li onclick={goTestDrive}><i class="ti ti-chevron-right" aria-hidden="true"></i>Book Test Drive</li>
+                        <li onclick={goAbout}><i class="ti ti-chevron-right" aria-hidden="true"></i>About Us</li>
+                        <li onclick={goLogin}><i class="ti ti-chevron-right" aria-hidden="true"></i>Customer Login</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="col-title">Our Models</h4>
+                    <ul class="col-list">
+                        <template if:true={loadingModels}>
+                            <li class="loading-item">Loading...</li>
+                        </template>
+                        <template for:each={models} for:item="model">
+                            <li key={model.Id} onclick={goModels}>
+                                <i class="ti ti-chevron-right" aria-hidden="true"></i>{model.Name}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="col-title">Contact Us</h4>
+                    <ul class="col-list contact-list">
+                        <li>
+                            <i class="ti ti-phone" aria-hidden="true"></i>
+                            <span>1800 209 7979 (Toll Free)</span>
+                        </li>
+                        <li>
+                            <i class="ti ti-mail" aria-hidden="true"></i>
+                            <span>support@tatamotors.com</span>
+                        </li>
+                        <li>
+                            <i class="ti ti-map-pin" aria-hidden="true"></i>
+                            <span>Bombay House, 24 Homi Mody St, Mumbai 400 001</span>
+                        </li>
+                        <li>
+                            <i class="ti ti-clock" aria-hidden="true"></i>
+                            <span>Mon – Sat: 9:00 AM – 6:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <span>&copy; {currentYear} Tata Motors Limited. All rights reserved.</span>
+                <span class="built-on">Built on Salesforce Experience Cloud</span>
+            </div>
+        </div>
+    </footer>
+</template>

@@ -1,0 +1,19 @@
+<template>
+    <div class="activity-card">
+        <div class="card-header">
+            <h3>Recent Bookings</h3>
+            <button onclick={goBookings}>View All</button>
+        </div>
+        <template if:true={loading}><div class="loading-row"><div class="spinner"></div> Loading...</div></template>
+        <template if:true={empty}><div class="empty-state">📋 No bookings yet</div></template>
+        <template for:each={bookings} for:item="b">
+            <div key={b.Id} class="row-item">
+                <div class="row-left">
+                    <div class="row-title">{b.Contact__r.FirstName} {b.Contact__r.LastName} — {b.Model__r.Name}</div>
+                    <div class="row-sub">#{b.Booking_Number__c} · ₹{b.amountFormatted}</div>
+                </div>
+                <span class={b.statusClass}>{b.Status__c}</span>
+            </div>
+        </template>
+    </div>
+</template>

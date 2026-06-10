@@ -1,0 +1,21 @@
+<template>
+    <div class="profile-card">
+        <div class="avatar-circle">{initial}</div>
+        <div class="profile-name">{userName}</div>
+        <div class="profile-role">{userRole}</div>
+        <div class="profile-badge">
+            <template if:true={isManager}>🏆 Sales Manager</template>
+            <template if:false={isManager}>👤 Sales Executive</template>
+        </div>
+        <div class="profile-info">
+            <div class="info-row">
+                <span>Organization</span>
+                <strong>Tata Motors</strong>
+            </div>
+            <div class="info-row">
+                <span>Portal Access</span>
+                <strong>Partner Portal</strong>
+            </div>
+        </div>
+    </div>
+</template>

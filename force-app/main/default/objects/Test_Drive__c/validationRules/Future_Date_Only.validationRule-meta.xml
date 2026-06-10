@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Future_Date_Only</fullName>
+    <active>false</active>
+    <errorConditionFormula>OR(
+  Preferred_Date_Time__c &lt;= NOW(),
+  Preferred_Date_Time__c &gt; NOW() + 30,
+  WEEKDAY(DATEVALUE(Preferred_Date_Time__c)) = 1,
+  WEEKDAY(DATEVALUE(Preferred_Date_Time__c)) = 7
+)</errorConditionFormula>
+    <errorDisplayField>Preferred_Date_Time__c</errorDisplayField>
+    <errorMessage>Test drive must be on a weekday between 9am and 6pm, within the next 30 days</errorMessage>
+</ValidationRule>

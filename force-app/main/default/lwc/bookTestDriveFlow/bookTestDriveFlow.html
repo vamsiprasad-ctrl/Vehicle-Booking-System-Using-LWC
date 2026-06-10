@@ -1,0 +1,43 @@
+<template>
+    <div class="flow-container">
+
+        <!-- Step 1: Model Selection -->
+        <template if:true={showModelPage}>
+            <c-model-selection-page
+                onmodelselected={handleModelSelected}>
+            </c-model-selection-page>
+        </template>
+
+        <!-- Step 2: Variant Selection -->
+        <template if:true={showVariantPage}>
+            <c-variant-selection-page
+                model-id={selectedModelId}
+                model-name={selectedModelName}
+                onvariantselected={handleVariantSelected}
+                onback={handleBackToModels}>
+            </c-variant-selection-page>
+        </template>
+
+        <!-- Step 3: Test Drive Form -->
+        <template if:true={showFormPage}>
+            <c-test-drive-form-page
+                model-id={selectedModelId}
+                model-name={selectedModelName}
+                variant-id={selectedVariantId}
+                variant-name={selectedVariantName}
+                onback={handleBackToVariants}
+                onsubmitted={handleFormSubmitted}>
+            </c-test-drive-form-page>
+        </template>
+
+        <!-- Step 4: Success -->
+        <template if:true={showSuccess}>
+            <c-booking-success-page
+                model-name={selectedModelName}
+                variant-name={selectedVariantName}
+                onnewbooking={handleNewBooking}>
+            </c-booking-success-page>
+        </template>
+
+    </div>
+</template>

@@ -1,0 +1,122 @@
+<template>
+    <div class="page">
+        <div class="page-header">
+            <div class="hi">
+                <div>
+                    <h1>Customers</h1>
+                    <p>View and manage your customer profiles</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+
+            <div class="search-bar">
+                <input type="text" class="search-input"
+                       placeholder="Search by name, email or phone..."
+                       value={searchKey}
+                       onchange={handleInput}/>
+                <button class="btn-search" onclick={doSearch}>🔍 Search</button>
+                <button class="btn-clear"  onclick={clearSearch}>Clear</button>
+                <span class="count-tag">{customers.length} customer(s)</span>
+            </div>
+
+            <div class="two-col">
+                <div class="table-wrap">
+                    <template if:true={loading}><div class="loading"><div class="spin"></div> Loading...</div></template>
+                    <template if:true={empty}><div class="empty">👤 No customers found</div></template>
+                    <template if:false={loading}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>Since</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={customers} for:item="c">
+                                    <tr key={c.Id} class="trow">
+                                        <td>
+                                            <div class="av-cell">
+                                                <div class="av">{c.initial}</div>
+                                                <div>
+                                                    <div class="td-title">{c.FirstName} {c.LastName}</div>
+                                                    <div class="td-sub">{c.Email}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{c.Phone}</td>
+                                        <td>{c.MailingCity}</td>
+                                        <td>{c.createdDate}</td>
+                                        <td>
+                                            <button class="btn-sm blue" data-id={c.Id} onclick={selectCustomer}>View Profile</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                </div>
+
+                <template if:true={selectedContactId}>
+                    <div class="side-panel">
+                        <div class="sp-header">
+                            <div>
+                                <div class="sp-title">Customer Profile</div>
+                            </div>
+                            <button class="close-btn" onclick={closeProfile}>✕</button>
+                        </div>
+                        <div class="sp-body">
+                            <template if:true={loadingProfile}><div class="loading"><div class="spin"></div> Loading...</div></template>
+                            <template if:false={loadingProfile}>
+                                <template if:true={profile}>
+                                    <div class="cust-hero">
+                                        <div class="ch-av">{profileInitial}</div>
+                                        <div>
+                                            <div class="ch-name">{profile.contact.FirstName} {profile.contact.LastName}</div>
+                                            <div class="ch-meta">{profile.contact.Email}</div>
+                                            <div class="ch-meta">{profile.contact.Phone}</div>
+                                        </div>
+                                    </div>
+                                    <div class="cust-stats">
+                                        <div class="cs-item">
+                                            <div class="cs-n">{profile.bookings.length}</div>
+                                            <div class="cs-l">Bookings</div>
+                                        </div>
+                                        <div class="cs-item">
+                                            <div class="cs-n">{profile.testDrives.length}</div>
+                                            <div class="cs-l">Test Drives</div>
+                                        </div>
+                                        <div class="cs-item">
+                                            <div class="cs-n">{profile.payments.length}</div>
+                                            <div class="cs-l">Payments</div>
+                                        </div>
+                                    </div>
+                                    <div class="sec-label">Recent Bookings</div>
+                                    <template if:true={noBookings}><div class="empty-sm">No bookings yet</div></template>
+                                    <template for:each={profile.bookings} for:item="b">
+                                        <div key={b.Id} class="mini-row">
+                                            <div>
+                                                <div class="mini-title">{b.modelName}</div>
+                                                <div class="mini-sub">#{b.Booking_Number__c}</div>
+                                            </div>
+                                            <span class={b.sc}>{b.Status__c}</span>
+                                        </div>
+                                    </template>
+                                    <div class="sec-label">Send Email</div>
+                                    <input type="text" class="email-f" placeholder="Subject" value={emailSubject} onchange={handleSubject}/>
+                                    <textarea class="email-f area" placeholder="Message..." value={emailBody} onchange={handleBody}></textarea>
+                                    <button class="act-btn blue" onclick={sendEmail}>📧 Send Email</button>
+                                    <template if:true={emailSuccess}><div class="msg success">Email sent!</div></template>
+                                    <template if:true={emailError}><div class="msg error">{emailError}</div></template>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

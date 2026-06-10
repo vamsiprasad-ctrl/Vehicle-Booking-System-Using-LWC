@@ -1,0 +1,109 @@
+.lead-inbox {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header h2 {
+    margin: 0 0 25px;
+    color: #333;
+    font-size: 24px;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-section label {
+    font-weight: 600;
+    color: #333;
+}
+
+.filter-section select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.leads-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.leads-table thead {
+    background-color: #f5f5f5;
+}
+
+.leads-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    border-bottom: 2px solid #ddd;
+}
+
+.leads-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    color: #333;
+}
+
+.leads-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #e3f2fd;
+    color: #0066cc;
+}
+
+.action-btn {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.action-btn:hover {
+    background-color: #218838;
+}
+
+.loading,
+.error-message,
+.no-data {
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.error-message {
+    background-color: #fde7e7;
+    color: #c00;
+    border: 1px solid #fcc;
+}
+
+.no-data {
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+}

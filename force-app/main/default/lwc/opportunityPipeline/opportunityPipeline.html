@@ -1,0 +1,75 @@
+<template>
+    <div class="slds-m-around_medium">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center
+                              slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon
+                            icon-name="standard:opportunity"
+                            size="small">
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            Opportunity Pipeline
+                        </h2>
+                    </div>
+                </header>
+            </div>
+
+            <div class="slds-card__body">
+                <template if:true={noOpps}>
+                    <p class="slds-text-body_regular
+                               slds-text-align_center
+                               slds-p-around_large">
+                        No active opportunities.
+                    </p>
+                </template>
+
+                <table class="slds-table
+                              slds-table_cell-buffer
+                              slds-table_bordered
+                              slds-table_striped">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">Name</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Stage</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Close Date</th>
+                            <th scope="col">Progress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={opportunities}
+                                  for:item="opp">
+                            <tr key={opp.Id}>
+                                <td>{opp.Name}</td>
+                                <td>{opp.Account.Name}</td>
+                                <td>
+                                    <lightning-badge
+                                        label={opp.StageName}>
+                                    </lightning-badge>
+                                </td>
+                                <td>₹{opp.Amount}</td>
+                                <td>{opp.CloseDate}</td>
+                                <td>
+                                    <div class="slds-progress-bar slds-progress-bar_x-small"
+                                        role="progressbar"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100">
+                                        <span
+                                            class="slds-progress-bar__value"
+                                            style={opp.progressStyle}>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </div>
+</template>

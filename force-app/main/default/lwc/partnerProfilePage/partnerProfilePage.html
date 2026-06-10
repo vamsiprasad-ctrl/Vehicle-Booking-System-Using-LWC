@@ -1,0 +1,21 @@
+<template>
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="header-inner">
+                <div>
+                    <h1>My Profile</h1>
+                    <p>Your account information and performance</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="body-inner profile-layout">
+                <c-partner-profile-card
+                    user-name={userName}
+                    user-role={userRole}>
+                </c-partner-profile-card>
+                <c-partner-my-stats stats={stats}></c-partner-my-stats>
+            </div>
+        </div>
+    </div>
+</template>

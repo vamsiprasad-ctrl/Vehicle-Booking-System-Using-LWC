@@ -1,0 +1,37 @@
+<template>
+    <div class="table-card">
+        <template if:true={loading}><div class="loading-wrap"><div class="spinner"></div> Loading...</div></template>
+        <template if:true={empty}><div class="empty-state">✅ No outstanding balances</div></template>
+        <template if:false={loading}>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Model</th>
+                        <th>Total Amount</th>
+                        <th>Paid</th>
+                        <th>Outstanding</th>
+                        <th>Delivery Date</th>
+                        <th>Exec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={bookings} for:item="b">
+                        <tr key={b.Id} class="table-row">
+                            <td>
+                                <div class="cell-title">{b.Contact__r.FirstName} {b.Contact__r.LastName}</div>
+                                <div class="cell-sub">{b.Contact__r.Phone}</div>
+                            </td>
+                            <td>{b.Model__r.Name}</td>
+                            <td>₹{b.totalFmt}</td>
+                            <td>₹{b.paidFmt}</td>
+                            <td class="outstanding-amt">₹{b.remainingFmt}</td>
+                            <td>{b.Expected_Delivery_Date__c}</td>
+                            <td>{b.Owner.Name}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </div>
+</template>

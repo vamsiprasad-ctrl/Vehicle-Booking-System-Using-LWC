@@ -1,0 +1,25 @@
+<template>
+    <div class="activity-card">
+        <div class="card-header">
+            <h3>Recent Test Drives</h3>
+            <button onclick={goTestDrives}>View All</button>
+        </div>
+        <template if:true={loading}>
+            <div class="loading-row">
+                <div class="spinner"></div> Loading...
+            </div>
+        </template>
+        <template if:true={empty}>
+            <div class="empty-state">🚗 No test drives yet</div>
+        </template>
+        <template for:each={testDrives} for:item="td">
+            <div key={td.Id} class="row-item">
+                <div class="row-left">
+                    <div class="row-title">{td.customerName}</div>
+                    <div class="row-sub">{td.modelName} · {td.city}</div>
+                </div>
+                <span class={td.statusClass}>{td.Status__c}</span>
+            </div>
+        </template>
+    </div>
+</template>

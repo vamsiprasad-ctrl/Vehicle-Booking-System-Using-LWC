@@ -1,0 +1,5 @@
+:host { display: block; padding: 0 48px 40px; }
+.vl-header { margin-bottom: 24px; }
+.vl-title { font-family: 'Syne',sans-serif; font-size: 28px; font-weight: 800; color: #061B47; letter-spacing: -0.5px; margin-bottom: 4px; }
+.vl-sub { font-size: 14px; color: #6B7A99; }
+.vl-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }

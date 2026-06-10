@@ -1,0 +1,229 @@
+<template>
+    <div class="bookings-page">
+        <div class="page-header">
+            <div class="header-inner">
+                <div class="breadcrumb">
+                    <span onclick={goDashboard} class="bc-link">Dashboard</span>
+                    <i class="ti ti-chevron-right bc-sep" aria-hidden="true"></i>
+                    <span class="bc-current">My Bookings</span>
+                </div>
+                <h1 class="page-title">My Bookings</h1>
+                <p class="page-sub">Track your vehicle bookings and payments</p>
+            </div>
+        </div>
+
+        <div class="page-body">
+            <div class="body-inner">
+
+                <!-- Filter -->
+                <div class="filter-row">
+                    <select class="filter-select" onchange={handleFilter}>
+                        <option value="all">All Bookings</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Under Approval">Under Approval</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <span class="count-label">{filteredBookings.length} booking(s)</span>
+                </div>
+
+                <!-- Loading -->
+                <template if:true={loading}>
+                    <div class="loading-wrap"><div class="spinner"></div><p>Loading bookings...</p></div>
+                </template>
+
+                <!-- Empty -->
+                <template if:true={isEmpty}>
+                    <div class="empty-state">
+                        <i class="ti ti-file-off" aria-hidden="true"></i>
+                        <h3>No bookings found</h3>
+                        <p>You haven't made any bookings yet.</p>
+                        <button onclick={goModels}>Browse Models</button>
+                    </div>
+                </template>
+
+                <!-- Booking cards -->
+                <template for:each={filteredBookings} for:item="booking">
+                    <div key={booking.Id} class="booking-card">
+
+                        <!-- Card header -->
+                        <div class="card-header">
+                            <div class="card-header-left">
+                                <div class="car-name">{booking.modelName}</div>
+                                <div class="variant-name">{booking.variantName}</div>
+                                <div class="booking-num">Booking #{booking.Booking_Number__c}</div>
+                            </div>
+                            <div class={booking.statusClass}>{booking.Status__c}</div>
+                        </div>
+
+                        <!-- Delivery progress stepper -->
+                        <div class="progress-stepper">
+                            <div class={booking.step1Class}>
+                                <div class="step-dot"></div>
+                                <div class="step-label">Pending</div>
+                            </div>
+                            <div class={booking.lineClass12}></div>
+                            <div class={booking.step2Class}>
+                                <div class="step-dot"></div>
+                                <div class="step-label">Approved</div>
+                            </div>
+                            <div class={booking.lineClass23}></div>
+                            <div class={booking.step3Class}>
+                                <div class="step-dot"></div>
+                                <div class="step-label">Paid</div>
+                            </div>
+                            <div class={booking.lineClass34}></div>
+                            <div class={booking.step4Class}>
+                                <div class="step-dot"></div>
+                                <div class="step-label">Delivered</div>
+                            </div>
+                        </div>
+
+                        <!-- Card details -->
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Booking Amount</span>
+                                <span class="detail-val">₹{booking.totalAmountFormatted}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Total Paid</span>
+                                <span class="detail-val paid">₹{booking.totalPaidFormatted}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Remaining</span>
+                                <span class="detail-val remaining">₹{booking.remainingFormatted}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Booking Date</span>
+                                <span class="detail-val">{booking.Booking_Date__c}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Expected Delivery</span>
+                                <span class="detail-val">{booking.Expected_Delivery_Date__c}</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment bar -->
+                        <template if:true={booking.showPaymentBar}>
+                            <div class="payment-progress">
+                                <div class="pp-label">
+                                    <span>Payment Progress</span>
+                                    <span>{booking.paymentPercent}%</span>
+                                </div>
+                                <div class="pp-track">
+                                    <div class="pp-fill" style={booking.ppStyle}></div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Delivered banner -->
+                        <template if:true={booking.isDelivered}>
+                            <div class="delivered-banner">
+                                <i class="ti ti-circle-check" aria-hidden="true"></i>
+                                Your vehicle has been delivered! Thank you for choosing Tata Motors.
+                            </div>
+                        </template>
+
+                        <!-- Card actions -->
+                        <div class="card-actions">
+                            <!-- Make payment -->
+                            <template if:true={booking.canPay}>
+                                <button class="btn-pay" data-id={booking.Id} onclick={openPayment}>
+                                    <i class="ti ti-credit-card" aria-hidden="true"></i> Make Payment
+                                </button>
+                            </template>
+
+                            <!-- Payment history toggle -->
+                            <button class="btn-toggle" data-id={booking.Id} onclick={togglePayments}>
+                                <i class="ti ti-receipt" aria-hidden="true"></i>
+                                <template if:true={booking.showPayments}>Hide Payments</template>
+                                <template if:false={booking.showPayments}>Payment History</template>
+                            </button>
+
+                            <!-- Download receipt -->
+                            <template if:true={booking.hasPayments}>
+                                <button class="btn-receipt" data-id={booking.Id} onclick={downloadReceipt}>
+                                    <i class="ti ti-download" aria-hidden="true"></i> Receipt
+                                </button>
+                            </template>
+                        </div>
+
+                        <!-- Payment history -->
+                        <template if:true={booking.showPayments}>
+                            <div class="payments-section">
+                                <template if:true={booking.loadingPayments}>
+                                    <div class="loading-sm"><div class="spinner-sm"></div> Loading...</div>
+                                </template>
+                                <template if:true={booking.noPayments}>
+                                    <p class="no-payments">No payments recorded yet.</p>
+                                </template>
+                                <template for:each={booking.payments} for:item="p">
+                                    <div key={p.Id} class="payment-row">
+                                        <div class="pr-left">
+                                            <div class="pr-method">{p.Payment_Method__c}</div>
+                                            <div class="pr-date">{p.Payment_Date__c}</div>
+                                        </div>
+                                        <div class="pr-right">
+                                            <div class="pr-amount">₹{p.amountFormatted}</div>
+                                            <div class={p.statusClass}>{p.Status__c}</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- Payment form -->
+                        <template if:true={booking.showPaymentForm}>
+                            <div class="payment-form">
+                                <h4 class="pf-title">Make a Payment</h4>
+                                <div class="pf-row">
+                                    <div class="pf-group">
+                                        <label class="pf-label">Amount (₹) *</label>
+                                        <input type="number" class="pf-input"
+                                               value={booking.paymentAmount}
+                                               min="1"
+                                               max={booking.remainingRaw}
+                                               data-id={booking.Id}
+                                               onchange={handlePaymentAmount}/>
+                                    </div>
+                                    <div class="pf-group">
+                                        <label class="pf-label">Payment Method *</label>
+                                        <select class="pf-input" data-id={booking.Id} onchange={handlePaymentMethod}>
+                                            <option value="">— Select —</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="UPI">UPI</option>
+                                            <option value="Card">Card</option>
+                                            <option value="Loan">Loan</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <template if:true={booking.paymentError}>
+                                    <p class="pf-error">{booking.paymentError}</p>
+                                </template>
+                                <div class="pf-actions">
+                                    <button class="btn-confirm-pay" data-id={booking.Id}
+                                            onclick={submitPayment}
+                                            disabled={booking.paymentSubmitting}>
+                                        <template if:true={booking.paymentSubmitting}>
+                                            <div class="spinner-sm"></div> Processing...
+                                        </template>
+                                        <template if:false={booking.paymentSubmitting}>
+                                            Confirm Payment
+                                        </template>
+                                    </button>
+                                    <button class="btn-cancel-pay" data-id={booking.Id} onclick={cancelPayment}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </div>
+</template>

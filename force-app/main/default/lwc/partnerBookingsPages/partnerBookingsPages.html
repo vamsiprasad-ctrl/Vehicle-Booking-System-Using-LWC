@@ -1,0 +1,149 @@
+<template>
+    <div class="page">
+        <div class="page-header">
+            <div class="hi">
+                <div>
+                    <h1>Bookings</h1>
+                    <p>Track all customer bookings and payment history</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+
+            <div class="filter-bar">
+                <button class={allClass} data-f="all"       onclick={filter}>All</button>
+                <button class={penClass} data-f="Pending"   onclick={filter}>Pending</button>
+                <button class={appClass} data-f="Approved"  onclick={filter}>Approved</button>
+                <button class={delClass} data-f="Delivered" onclick={filter}>Delivered</button>
+                <button class={canClass} data-f="Cancelled" onclick={filter}>Cancelled</button>
+                <span class="count-tag">{bookings.length} booking(s)</span>
+            </div>
+
+            <div class="two-col">
+                <div class="table-wrap">
+                    <template if:true={loading}><div class="loading"><div class="spin"></div> Loading...</div></template>
+                    <template if:true={empty}><div class="empty">📋 No bookings found</div></template>
+                    <template if:false={loading}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Booking #</th>
+                                    <th>Customer</th>
+                                    <th>Model / Variant</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={bookings} for:item="b">
+                                    <tr key={b.Id} class="trow">
+                                        <td class="mono">{b.Booking_Number__c}</td>
+                                        <td>
+                                            <div class="av-cell">
+                                                <div class="av">{b.initial}</div>
+                                                <div>
+                                                    <div class="td-title">{b.customerName}</div>
+                                                    <div class="td-sub">{b.customerPhone}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="td-title">{b.modelName}</div>
+                                            <div class="td-sub">{b.variantName}</div>
+                                        </td>
+                                        <td><span class="amt">₹{b.totalFmt}</span></td>
+                                        <td><span class="amt green">₹{b.paidFmt}</span></td>
+                                        <td><span class={b.sc}>{b.Status__c}</span></td>
+                                        <td>
+                                            <div class="actions">
+                                                <button class="btn-sm blue" data-id={b.Id} onclick={viewPayments}>Payments</button>
+                                                <template if:true={isManager}>
+                                                    <template if:true={b.isPending}>
+                                                        <button class="btn-sm amber" data-id={b.Id} onclick={openApproval}>Review</button>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                </div>
+
+                <!-- Payment Panel -->
+                <template if:true={showPaymentPanel}>
+                    <div class="side-panel">
+                        <div class="sp-header">
+                            <div>
+                                <div class="sp-title">Payment History</div>
+                                <div class="sp-sub">#{selectedBooking.Booking_Number__c}</div>
+                            </div>
+                            <button class="close-btn" onclick={closePanel}>✕</button>
+                        </div>
+                        <div class="sp-body">
+                            <div class="info-grid">
+                                <div class="info-row"><span>Customer</span><strong>{selectedBooking.customerName}</strong></div>
+                                <div class="info-row"><span>Model</span><strong>{selectedBooking.modelName}</strong></div>
+                                <div class="info-row"><span>Total Amount</span><strong>₹{selectedBooking.totalFmt}</strong></div>
+                                <div class="info-row"><span>Total Paid</span><strong class="green-txt">₹{selectedBooking.paidFmt}</strong></div>
+                                <div class="info-row"><span>Remaining</span><strong class="amber-txt">₹{selectedBooking.remainFmt}</strong></div>
+                            </div>
+                            <div class="prog-wrap">
+                                <div class="prog-bar"><div class="prog-fill" style={selectedBooking.progStyle}></div></div>
+                                <span class="prog-lbl">{selectedBooking.pct}% paid</span>
+                            </div>
+                            <template if:true={loadingPayments}><div class="loading"><div class="spin"></div></div></template>
+                            <template if:true={noPayments}><div class="empty-sm">No payments yet</div></template>
+                            <template for:each={payments} for:item="p">
+                                <div key={p.Id} class="p-row">
+                                    <div>
+                                        <div class="p-method">{p.Payment_Method__c}</div>
+                                        <div class="p-date">{p.Payment_Date__c}</div>
+                                    </div>
+                                    <span class="p-amt">₹{p.amtFmt}</span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Approval Panel -->
+                <template if:true={showApprovalPanel}>
+                    <div class="side-panel">
+                        <div class="sp-header">
+                            <div>
+                                <div class="sp-title">Review Booking</div>
+                                <div class="sp-sub">#{approvalBooking.Booking_Number__c}</div>
+                            </div>
+                            <button class="close-btn" onclick={closePanel}>✕</button>
+                        </div>
+                        <div class="sp-body">
+                            <div class="info-grid">
+                                <div class="info-row"><span>Customer</span><strong>{approvalBooking.customerName}</strong></div>
+                                <div class="info-row"><span>Phone</span><strong>{approvalBooking.customerPhone}</strong></div>
+                                <div class="info-row"><span>Model</span><strong>{approvalBooking.modelName}</strong></div>
+                                <div class="info-row"><span>Variant</span><strong>{approvalBooking.variantName}</strong></div>
+                                <div class="info-row"><span>Amount</span><strong>₹{approvalBooking.totalFmt}</strong></div>
+                                <div class="info-row"><span>Sales Exec</span><strong>{approvalBooking.ownerName}</strong></div>
+                            </div>
+                            <button class="act-btn green" onclick={approveBooking} disabled={processing}>
+                                <template if:true={processing}>Processing...</template>
+                                <template if:false={processing}>✅ Approve Booking</template>
+                            </button>
+                            <div class="field-group">
+                                <label>Rejection Reason (required to reject)</label>
+                                <textarea value={rejectionReason} onchange={handleReason} placeholder="Enter reason..."></textarea>
+                            </div>
+                            <button class="act-btn red" onclick={rejectBooking} disabled={processing}>❌ Reject Booking</button>
+                            <template if:true={approvalSuccess}><div class="msg success">{approvalSuccess}</div></template>
+                            <template if:true={approvalError}><div class="msg error">{approvalError}</div></template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

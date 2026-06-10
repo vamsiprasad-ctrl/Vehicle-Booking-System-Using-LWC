@@ -1,0 +1,44 @@
+<template>
+    <div class="page">
+        <div class="page-header">
+            <div class="hi">
+                <div>
+                    <h1>Reports</h1>
+                    <p>Business overview and performance metrics</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="report-grid">
+                <div class="report-card hl">
+                    <h3>💰 Revenue This Month</h3>
+                    <div class="rev-big">₹{monthlyRevFmt}</div>
+                    <div class="rev-sub">Total collected payments this month</div>
+                </div>
+                <div class="report-card">
+                    <h3>📋 Booking Summary</h3>
+                    <div class="rs-grid">
+                        <div class="rs-item"><div class="rs-n">{stats.totalBookings}</div><div class="rs-l">Total</div></div>
+                        <div class="rs-item"><div class="rs-n">{stats.pendingApprovals}</div><div class="rs-l">Pending</div></div>
+                        <div class="rs-item"><div class="rs-n">{stats.approvedBookings}</div><div class="rs-l">Approved</div></div>
+                        <div class="rs-item"><div class="rs-n">{stats.deliveredBookings}</div><div class="rs-l">Delivered</div></div>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>👥 Lead Pipeline</h3>
+                    <div class="rs-grid">
+                        <div class="rs-item"><div class="rs-n">{stats.totalLeads}</div><div class="rs-l">Total Leads</div></div>
+                        <div class="rs-item"><div class="rs-n">{stats.newLeads}</div><div class="rs-l">New</div></div>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>🚗 Test Drive Activity</h3>
+                    <div class="rs-grid">
+                        <div class="rs-item"><div class="rs-n">{stats.totalTestDrives}</div><div class="rs-l">Total</div></div>
+                        <div class="rs-item"><div class="rs-n">{stats.scheduledTestDrives}</div><div class="rs-l">Confirmed</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

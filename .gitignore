@@ -1,0 +1,13 @@
+# Ignore everything
+/*
+
+# But not force-app/main/default
+!/force-app/
+/force-app/*
+!/force-app/main/
+/force-app/main/*
+!/force-app/main/default/
+!/force-app/main/default/**
+
+# Allow .gitignore
+!.gitignore

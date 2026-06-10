@@ -1,0 +1,114 @@
+<template>
+    <div class="page">
+        <div class="page-header">
+            <div class="hi">
+                <div>
+                    <h1>Test Drives</h1>
+                    <p>Manage test drive requests and schedules</p>
+                </div>
+                <button class="btn-today" onclick={toggleToday}>{todayLabel}</button>
+            </div>
+        </div>
+        <div class="page-body">
+
+            <div class="filter-bar">
+                <button class={allClass} data-f="all"       onclick={filter}>All</button>
+                <button class={reqClass} data-f="Requested" onclick={filter}>Requested</button>
+                <button class={conClass} data-f="Confirmed" onclick={filter}>Confirmed</button>
+                <button class={comClass} data-f="Completed" onclick={filter}>Completed</button>
+                <button class={canClass} data-f="Cancelled" onclick={filter}>Cancelled</button>
+                <span class="count-tag">{testDrives.length} test drive(s)</span>
+            </div>
+
+            <div class="two-col">
+                <div class="table-wrap">
+                    <template if:true={loading}><div class="loading"><div class="spin"></div> Loading...</div></template>
+                    <template if:true={empty}><div class="empty">🚗 No test drives found</div></template>
+                    <template if:false={loading}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Model / Variant</th>
+                                    <th>Date &amp; Time</th>
+                                    <th>City</th>
+                                    <th>Assigned To</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={testDrives} for:item="td">
+                                    <tr key={td.Id} class="trow">
+                                        <td>
+                                            <div class="av-cell">
+                                                <div class="av">{td.initial}</div>
+                                                <div>
+                                                    <div class="td-title">{td.customerName}</div>
+                                                    <div class="td-sub">{td.customerPhone}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="td-title">{td.modelName}</div>
+                                            <div class="td-sub">{td.variantName}</div>
+                                        </td>
+                                        <td>{td.dateFmt}</td>
+                                        <td>{td.City__c}</td>
+                                        <td>{td.ownerName}</td>
+                                        <td><span class={td.sc}>{td.Status__c}</span></td>
+                                        <td>
+                                            <button class="btn-sm blue" data-id={td.Id} onclick={selectTD}>Actions</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </template>
+                </div>
+
+                <template if:true={selectedTD}>
+                    <div class="side-panel">
+                        <div class="sp-header">
+                            <div>
+                                <div class="sp-title">Test Drive Actions</div>
+                                <div class="sp-sub">{selectedTD.customerName}</div>
+                            </div>
+                            <button class="close-btn" onclick={closePanel}>✕</button>
+                        </div>
+                        <div class="sp-body">
+                            <div class="info-grid">
+                                <div class="info-row"><span>Customer</span><strong>{selectedTD.customerName}</strong></div>
+                                <div class="info-row"><span>Phone</span><strong>{selectedTD.customerPhone}</strong></div>
+                                <div class="info-row"><span>Model</span><strong>{selectedTD.modelName}</strong></div>
+                                <div class="info-row"><span>Variant</span><strong>{selectedTD.variantName}</strong></div>
+                                <div class="info-row"><span>Date</span><strong>{selectedTD.dateFmt}</strong></div>
+                                <div class="info-row"><span>City</span><strong>{selectedTD.City__c}</strong></div>
+                                <div class="info-row"><span>Status</span><strong>{selectedTD.Status__c}</strong></div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <template if:true={canConfirm}>
+                                    <button class="act-btn green" onclick={confirmTD}>✅ Confirm Test Drive</button>
+                                </template>
+                                <template if:true={canComplete}>
+                                    <div class="field-group">
+                                        <label>Notes (required to complete)</label>
+                                        <textarea value={notes} onchange={handleNotes} placeholder="Add test drive notes..."></textarea>
+                                    </div>
+                                    <button class="act-btn blue" onclick={completeTD}>✔ Mark as Completed</button>
+                                </template>
+                                <template if:true={canCancel}>
+                                    <button class="act-btn red" onclick={cancelTD}>✖ Cancel Test Drive</button>
+                                </template>
+                            </div>
+
+                            <template if:true={actionSuccess}><div class="msg success">{actionSuccess}</div></template>
+                            <template if:true={actionError}><div class="msg error">{actionError}</div></template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,39 @@
+<template>
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="header-inner">
+                <div>
+                    <h1>Bookings</h1>
+                    <p>Track all customer bookings and payments</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="body-inner">
+                <c-partner-bookings-filter onfilterchange={handleFilter}></c-partner-bookings-filter>
+                <c-partner-bookings-table
+                    bookings={bookings}
+                    loading={loading}
+                    is-manager={isManager}
+                    onbookingselect={handleBookingSelect}
+                    onapprovalrequest={handleApproval}>
+                </c-partner-bookings-table>
+
+                <template if:true={selectedBooking}>
+                    <c-partner-booking-payments
+                        booking={selectedBooking}
+                        onclose={closePayments}>
+                    </c-partner-booking-payments>
+                </template>
+
+                <template if:true={showApprovalModal}>
+                    <c-partner-approval-modal
+                        booking={approvalBooking}
+                        onclose={closeApproval}
+                        onrefresh={refreshBookings}>
+                    </c-partner-approval-modal>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,64 @@
+<template>
+    <div class="detail-panel">
+        <div class="panel-header">
+            <h3>{lead.FirstName} {lead.LastName}</h3>
+            <button class="close-btn" onclick={handleClose}>✕</button>
+        </div>
+
+        <div class="panel-body">
+            <div class="detail-section">
+                <div class="section-title">Contact Info</div>
+                <div class="detail-row"><span>Email</span><strong>{lead.Email}</strong></div>
+                <div class="detail-row"><span>Phone</span><strong>{lead.Phone}</strong></div>
+                <div class="detail-row"><span>City</span><strong>{lead.City}</strong></div>
+                <div class="detail-row"><span>Source</span><strong>{lead.LeadSource}</strong></div>
+            </div>
+
+            <div class="detail-section">
+                <div class="section-title">Vehicle Interest</div>
+                <div class="detail-row"><span>Model</span><strong>{modelName}</strong></div>
+                <div class="detail-row"><span>Variant</span><strong>{variantName}</strong></div>
+            </div>
+
+            <div class="detail-section">
+                <div class="section-title">Update Status</div>
+                <select class="status-select" onchange={handleStatusChange}>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Qualified">Qualified</option>
+                    <option value="Lost">Lost</option>
+                </select>
+                <button class="btn-update" onclick={updateStatus}>Update Status</button>
+            </div>
+
+            <template if:true={isManager}>
+                <div class="detail-section">
+                    <div class="section-title">Assign to Executive</div>
+                    <select class="status-select" onchange={handleExecChange}>
+                        <option value="">— Select Executive —</option>
+                        <template for:each={executives} for:item="exec">
+                            <option key={exec.Id} value={exec.Id}>{exec.Name}</option>
+                        </template>
+                    </select>
+                    <button class="btn-update" onclick={assignLead}>Assign</button>
+                </div>
+            </template>
+
+            <template if:true={canConvert}>
+                <div class="detail-section">
+                    <button class="btn-convert" onclick={convertLead}>
+                        ✅ Convert Lead
+                    </button>
+                </div>
+            </template>
+
+            <template if:true={successMsg}>
+                <div class="success-msg">{successMsg}</div>
+            </template>
+
+            <template if:true={errorMsg}>
+                <div class="error-msg">{errorMsg}</div>
+            </template>
+        </div>
+    </div>
+</template>

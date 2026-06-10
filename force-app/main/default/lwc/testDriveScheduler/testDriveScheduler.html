@@ -1,0 +1,70 @@
+<template>
+    <div class="slds-m-around_medium">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center
+                              slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon
+                            icon-name="standard:event"
+                            size="small">
+                        </lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            Test Drive Schedule
+                        </h2>
+                    </div>
+                </header>
+            </div>
+
+            <div class="slds-card__body">
+                <template if:true={noTestDrives}>
+                    <p class="slds-text-body_regular
+                               slds-text-align_center
+                               slds-p-around_large">
+                        No test drives scheduled.
+                    </p>
+                </template>
+
+                <table class="slds-table
+                              slds-table_cell-buffer
+                              slds-table_bordered
+                              slds-table_striped">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">Customer</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Model</th>
+                            <th scope="col">Variant</th>
+                            <th scope="col">Date & Time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={testDrives}
+                                  for:item="td">
+                            <tr key={td.Id}>
+                                <td>
+                                    {td.Lead__r.FirstName}
+                                    {td.Lead__r.LastName}
+                                </td>
+                                <td>{td.Lead__r.Phone}</td>
+                                <td>{td.Model__r.Name}</td>
+                                <td>{td.Variant__r.Name}</td>
+                                <td>{td.Preferred_Date_Time__c}</td>
+                                <td>
+                                    <lightning-badge
+                                        label={td.Status__c}>
+                                    </lightning-badge>
+                                </td>
+                                <td>{td.Notes__c}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+    </div>
+</template>

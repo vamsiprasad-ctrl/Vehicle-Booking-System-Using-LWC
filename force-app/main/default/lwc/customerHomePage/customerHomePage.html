@@ -1,0 +1,178 @@
+<template>
+    <div class="home-page">
+
+        <!-- HERO CAROUSEL -->
+        <section class="hero">
+            <div class="hero-slider">
+                <template for:each={heroSlides} for:item="slide" for:index="idx">
+                    <div key={slide.id} class={slide.slideClass}>
+                        <img src={slide.image} alt={slide.name} class="slide-img"/>
+                        <div class="slide-overlay"></div>
+                        <div class="slide-content">
+                            <div class="slide-badge">⭐ India's #1 Automobile Brand</div>
+                            <h1 class="slide-title">
+                                Buy Your<br/>
+                                <span class="slide-highlight">{slide.name}</span>
+                            </h1>
+                            <p class="slide-desc">{slide.tagline}</p>
+                            <div class="slide-price">Starting from ₹{slide.price}</div>
+                            <div class="hero-actions">
+                                <button class="btn-primary" onclick={goModels}>
+                                    🚗 Explore Models
+                                </button>
+                                <button class="btn-outline" onclick={goTestDrive}>
+                                    📅 Book Test Drive
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Dots -->
+            <div class="slider-dots">
+                <template for:each={heroSlides} for:item="slide">
+                    <div key={slide.id} class={slide.dotClass} data-idx={slide.idx} onclick={goToSlide}></div>
+                </template>
+            </div>
+        </section>
+
+        <!-- STATS BAR -->
+        <section class="stats-bar">
+            <div class="stats-inner">
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <template if:true={stats.activeModels}>{stats.activeModels}</template>
+                        <template if:false={stats.activeModels}>—</template>
+                    </div>
+                    <div class="stat-label">Car Models</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <template if:true={stats.totalTestDrives}>{stats.totalTestDrives}</template>
+                        <template if:false={stats.totalTestDrives}>—</template>
+                    </div>
+                    <div class="stat-label">Test Drives Completed</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">
+                        <template if:true={stats.totalCustomers}>{stats.totalCustomers}</template>
+                        <template if:false={stats.totalCustomers}>—</template>
+                    </div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">79</div>
+                    <div class="stat-label">Years of Excellence</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED MODELS -->
+        <section class="section featured-section">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="section-eyebrow">Our Lineup</div>
+                    <h2 class="section-title">Featured Models</h2>
+                    <p class="section-sub">Crafted for every road, built for every dream</p>
+                </div>
+
+                <template if:true={loadingModels}>
+                    <div class="models-loading">
+                        <div class="spinner"></div>
+                        <p>Loading models...</p>
+                    </div>
+                </template>
+
+                <div class="models-grid">
+                    <template for:each={models} for:item="model">
+                        <div key={model.Id} class="model-card" data-id={model.Id} onclick={openModel}>
+                            <div class="model-img-wrap">
+                                <template if:true={model.displayImage}>
+                                    <img src={model.displayImage} alt={model.Name} class="model-img" loading="lazy"/>
+                                </template>
+                                <template if:false={model.displayImage}>
+                                    <div class="model-img-placeholder">🚗</div>
+                                </template>
+                                <div class="model-badge">{model.fuelLabel}</div>
+                            </div>
+                            <div class="model-body">
+                                <h3 class="model-name">{model.Name}</h3>
+                                <p class="model-desc">{model.Description__c}</p>
+                                <div class="model-footer">
+                                    <div class="model-price">
+                                        <span class="price-from">Starting from</span>
+                                        <span class="price-val">₹{model.startingPriceFormatted}</span>
+                                    </div>
+                                    <button class="btn-explore" data-id={model.Id} onclick={openModel}>
+                                        Explore →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="view-all-wrap">
+                    <button class="btn-view-all" onclick={goModels}>
+                        View All Models →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US -->
+        <section class="section why-section">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="section-eyebrow">Why Tata Motors</div>
+                    <h2 class="section-title">Built Different. Built Better.</h2>
+                </div>
+                <div class="why-grid">
+                    <div class="why-card">
+                        <div class="why-icon blue">🛡️</div>
+                        <h3 class="why-title">5-Star Safety</h3>
+                        <p class="why-desc">Our vehicles consistently achieve top ratings in Global NCAP safety assessments, protecting what matters most.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon green">⚡</div>
+                        <h3 class="why-title">EV Leadership</h3>
+                        <p class="why-desc">India's leading electric vehicle manufacturer with the widest range of EVs — from city cars to SUVs.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon purple">🔧</div>
+                        <h3 class="why-title">Nationwide Service</h3>
+                        <p class="why-desc">Over 1,300 authorised service centres across India, ensuring you're never far from expert care.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-icon amber">🏆</div>
+                        <h3 class="why-title">Award Winning</h3>
+                        <p class="why-desc">Consistently recognised as India's most trusted automotive brand with multiple industry awards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA BANNER -->
+        <section class="cta-banner">
+            <div class="cta-inner">
+                <div class="cta-text">
+                    <h2 class="cta-title">Ready to drive your dream?</h2>
+                    <p class="cta-sub">Book a free test drive today — no commitment required.</p>
+                </div>
+                <div class="cta-actions">
+                    <button class="btn-cta-primary" onclick={goTestDrive}>
+                        📅 Book Test Drive
+                    </button>
+                    <button class="btn-cta-outline" onclick={goModels}>
+                        Browse Models
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</template>

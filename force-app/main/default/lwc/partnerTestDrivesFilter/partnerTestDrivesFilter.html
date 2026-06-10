@@ -1,0 +1,9 @@
+<template>
+    <div class="filter-bar">
+        <button class={allClass} data-filter="all" onclick={handleFilter}>All</button>
+        <button class={requestedClass} data-filter="Requested" onclick={handleFilter}>Requested</button>
+        <button class={confirmedClass} data-filter="Confirmed" onclick={handleFilter}>Confirmed</button>
+        <button class={completedClass} data-filter="Completed" onclick={handleFilter}>Completed</button>
+        <button class={cancelledClass} data-filter="Cancelled" onclick={handleFilter}>Cancelled</button>
+    </div>
+</template>
