@@ -1,0 +1,49 @@
+<template>
+    <div class="table-card">
+        <template if:true={loading}><div class="loading-wrap"><div class="spinner"></div> Loading...</div></template>
+        <template if:true={empty}><div class="empty-state">📋 No bookings found</div></template>
+        <template if:false={loading}>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Booking #</th>
+                        <th>Customer</th>
+                        <th>Model / Variant</th>
+                        <th>Amount</th>
+                        <th>Paid</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={bookings} for:item="b">
+                        <tr key={b.Id} class="table-row">
+                            <td class="mono">{b.Booking_Number__c}</td>
+                            <td>
+                                <div class="cell-title">{b.Contact__r.FirstName} {b.Contact__r.LastName}</div>
+                                <div class="cell-sub">{b.Contact__r.Phone}</div>
+                            </td>
+                            <td>
+                                <div class="cell-title">{b.Model__r.Name}</div>
+                                <div class="cell-sub">{b.Variant__r.Name}</div>
+                            </td>
+                            <td>₹{b.totalFormatted}</td>
+                            <td>₹{b.paidFormatted}</td>
+                            <td><span class={b.statusClass}>{b.Status__c}</span></td>
+                            <td class="action-cell">
+                                <button class="btn-view" data-id={b.Id} onclick={viewPayments}>Payments</button>
+                                <template if:true={isManager}>
+                                    <template if:true={b.isPending}>
+                                        <button class="btn-approve" data-id={b.Id} onclick={requestApproval}>
+                                            Review
+                                        </button>
+                                    </template>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </div>
+</template>

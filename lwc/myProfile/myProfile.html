@@ -1,0 +1,172 @@
+<template>
+    <div class="profile-page">
+        <div class="page-header">
+            <div class="header-inner">
+                <div class="breadcrumb">
+                    <span onclick={goDashboard} class="bc-link">Dashboard</span>
+                    <i class="ti ti-chevron-right bc-sep" aria-hidden="true"></i>
+                    <span class="bc-current">My Profile</span>
+                </div>
+                <h1 class="page-title">My Profile</h1>
+                <p class="page-sub">View and update your contact information</p>
+            </div>
+        </div>
+
+        <div class="page-body">
+            <div class="body-inner">
+
+                <template if:true={loading}>
+                    <div class="loading-wrap"><div class="spinner"></div><p>Loading profile...</p></div>
+                </template>
+
+                <template if:false={loading}>
+                    <template if:true={contact}>
+
+                        <div class="profile-layout">
+
+                            <!-- Left — avatar card -->
+                            <div class="avatar-card">
+                                <div class="avatar-circle">{initials}</div>
+                                <div class="avatar-name">{contact.FirstName} {contact.LastName}</div>
+                                <div class="avatar-email">{contact.Email}</div>
+                                <div class="avatar-badge">
+                                    <i class="ti ti-shield-check" aria-hidden="true"></i> Verified Customer
+                                </div>
+                                <div class="avatar-actions">
+                                    <template if:false={editMode}>
+                                        <button class="btn-edit" onclick={enableEdit}>
+                                            <i class="ti ti-edit" aria-hidden="true"></i> Edit Profile
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Right — details card -->
+                            <div class="details-card">
+                                <div class="details-header">
+                                    <h2 class="details-title">Personal Information</h2>
+                                    <template if:true={editMode}>
+                                        <div class="edit-actions">
+                                            <button class="btn-save" onclick={saveProfile} disabled={saving}>
+                                                <template if:true={saving}>
+                                                    <div class="spinner-sm"></div> Saving...
+                                                </template>
+                                                <template if:false={saving}>
+                                                    <i class="ti ti-check" aria-hidden="true"></i> Save Changes
+                                                </template>
+                                            </button>
+                                            <button class="btn-cancel" onclick={cancelEdit}>Cancel</button>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <template if:true={saveSuccess}>
+                                    <div class="success-banner">
+                                        <i class="ti ti-circle-check" aria-hidden="true"></i>
+                                        Profile updated successfully!
+                                    </div>
+                                </template>
+
+                                <template if:true={saveError}>
+                                    <div class="error-banner">
+                                        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+                                        {saveError}
+                                    </div>
+                                </template>
+
+                                <div class="fields-grid">
+
+                                    <div class="field-group">
+                                        <label class="field-label">First Name</label>
+                                        <template if:true={editMode}>
+                                            <input type="text" class="field-input"
+                                                   value={editFirstName}
+                                                   onchange={handleFirstName}
+                                                   placeholder="First name"/>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <div class="field-value">{contact.FirstName}</div>
+                                        </template>
+                                    </div>
+
+                                    <div class="field-group">
+                                        <label class="field-label">Last Name</label>
+                                        <template if:true={editMode}>
+                                            <input type="text" class="field-input"
+                                                   value={editLastName}
+                                                   onchange={handleLastName}
+                                                   placeholder="Last name"/>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <div class="field-value">{contact.LastName}</div>
+                                        </template>
+                                    </div>
+
+                                    <div class="field-group full-width">
+                                        <label class="field-label">Email Address</label>
+                                        <template if:true={editMode}>
+                                            <input type="email" class="field-input"
+                                                   value={editEmail}
+                                                   onchange={handleEmail}
+                                                   placeholder="Email address"/>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <div class="field-value">
+                                                <i class="ti ti-mail" aria-hidden="true"></i> {contact.Email}
+                                            </div>
+                                        </template>
+                                    </div>
+
+                                    <div class="field-group">
+                                        <label class="field-label">Mobile Number</label>
+                                        <template if:true={editMode}>
+                                            <input type="tel" class="field-input"
+                                                   value={editPhone}
+                                                   onchange={handlePhone}
+                                                   maxlength="10"
+                                                   placeholder="10-digit mobile"/>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <div class="field-value">
+                                                <i class="ti ti-phone" aria-hidden="true"></i> {contact.Phone}
+                                            </div>
+                                        </template>
+                                    </div>
+
+                                    <div class="field-group">
+                                        <label class="field-label">City</label>
+                                        <template if:true={editMode}>
+                                            <input type="text" class="field-input"
+                                                   value={editCity}
+                                                   onchange={handleCity}
+                                                   placeholder="Your city"/>
+                                        </template>
+                                        <template if:false={editMode}>
+                                            <div class="field-value">
+                                                <i class="ti ti-map-pin" aria-hidden="true"></i>
+                                                <template if:true={contact.MailingCity}>{contact.MailingCity}</template>
+                                                <template if:false={contact.MailingCity}>Not specified</template>
+                                            </div>
+                                        </template>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </template>
+
+                    <template if:false={contact}>
+                        <div class="empty-state">
+                            <i class="ti ti-user-off" aria-hidden="true"></i>
+                            <h3>Profile not found</h3>
+                            <p>Your customer profile could not be loaded. Please contact support.</p>
+                        </div>
+                    </template>
+                </template>
+
+            </div>
+        </div>
+    </div>
+</template>

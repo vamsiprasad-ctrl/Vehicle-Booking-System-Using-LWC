@@ -1,0 +1,65 @@
+<template>
+    <div class="page">
+        <div class="page-header">
+            <div class="hi">
+                <div>
+                    <h1>My Profile</h1>
+                    <p>Your account and performance overview</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="profile-layout">
+                <div class="profile-card">
+                    <div class="p-av">{initial}</div>
+                    <div class="p-name">{userName}</div>
+                    <div class="p-role">{userRole}</div>
+                    <div class="p-badge">
+                        <template if:true={isManager}>🏆 Sales Manager</template>
+                        <template if:false={isManager}>👤 Sales Executive</template>
+                    </div>
+                    <div class="p-info">
+                        <div class="pi-row"><span>Organization</span><strong>Tata Motors</strong></div>
+                        <div class="pi-row"><span>Portal</span><strong>Partner Portal</strong></div>
+                        <div class="pi-row"><span>Role</span><strong>{userRole}</strong></div>
+                    </div>
+                </div>
+                <div class="my-stats">
+                    <h3>My Performance Stats</h3>
+                    <div class="ms-grid">
+                        <div class="ms-card">
+                            <div class="ms-icon">👥</div>
+                            <div class="ms-n">{stats.totalLeads}</div>
+                            <div class="ms-l">Leads Handled</div>
+                        </div>
+                        <div class="ms-card">
+                            <div class="ms-icon">🚗</div>
+                            <div class="ms-n">{stats.totalTestDrives}</div>
+                            <div class="ms-l">Test Drives</div>
+                        </div>
+                        <div class="ms-card">
+                            <div class="ms-icon">📋</div>
+                            <div class="ms-n">{stats.totalBookings}</div>
+                            <div class="ms-l">Bookings</div>
+                        </div>
+                        <div class="ms-card">
+                            <div class="ms-icon">✅</div>
+                            <div class="ms-n">{stats.deliveredBookings}</div>
+                            <div class="ms-l">Delivered</div>
+                        </div>
+                        <div class="ms-card">
+                            <div class="ms-icon">⏳</div>
+                            <div class="ms-n">{stats.pendingApprovals}</div>
+                            <div class="ms-l">Pending</div>
+                        </div>
+                        <div class="ms-card">
+                            <div class="ms-icon">🎯</div>
+                            <div class="ms-n">{conversionRate}%</div>
+                            <div class="ms-l">Conversion Rate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,13 +1,18 @@
-# Ignore everything
-/*
-
-# But not force-app/main/default
-!/force-app/
-/force-app/*
-!/force-app/main/
-/force-app/main/*
-!/force-app/main/default/
-!/force-app/main/default/**
+# Project source files to include
+!/aura/
+!/classes/
+!/components/
+!/lwc/
+!/objects/
+!/pages/
+!/staticresources/
+!/triggers/
+!/applications/
+!/layouts/
+!/permissionsets/
+!/contentassets/
+!/flexipages/
+!/tabs/
 
 # Allow .gitignore
 !.gitignore

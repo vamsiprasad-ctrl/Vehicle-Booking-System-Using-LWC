@@ -1,0 +1,29 @@
+<template>
+    <div class={cardClass} onclick={handleSelect}>
+        <div class="vcard-top">
+            <div class="vcard-name">{variant.n}</div>
+            <template if:true={variant.badge}>
+                <span class={badgeClass}>{variant.badge}</span>
+            </template>
+        </div>
+        <div class="vcard-specs">
+            <div class="vspc"><div class="vspc-icon">&#9981;</div><div class="vspc-lbl">Fuel</div><div class="vspc-val">{fuelType}</div></div>
+            <div class="vspc"><div class="vspc-icon">&#9881;</div><div class="vspc-lbl">Trans</div><div class="vspc-val">{transmission}</div></div>
+            <div class="vspc"><div class="vspc-icon">&#128100;</div><div class="vspc-lbl">Seats</div><div class="vspc-val">5</div></div>
+        </div>
+        <div class="vcard-mileage">&#9889; {variant.f}</div>
+        <div class="vcard-price">{priceFormatted}</div>
+        <div class="vcard-colors">
+            <div class="vcard-colors-label">Available Colors</div>
+            <div class="cdots">
+                <template for:each={colorDots} for:item="dot">
+                    <div key={dot.color} class={dot.cls} style={dot.style} data-color={dot.color} onclick={handleColorPick}></div>
+                </template>
+            </div>
+        </div>
+        <div class="vcard-footer">
+            <button class="btn-vtd" onclick={handleBook}>Request Test Drive</button>
+            <button class="btn-vemi" onclick={handleEMI}>EMI Calculator</button>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,109 @@
+<template>
+    <div class="variant-page">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="header-content">
+                <button class="btn-back"
+                        onclick={handleBack}>
+                    ← Back to Models
+                </button>
+                <h1 class="page-title">
+                    {modelName} — Choose Variant
+                </h1>
+                <p class="page-subtitle">
+                    Select the variant you want to test drive
+                </p>
+            </div>
+            <!-- Progress -->
+            <div class="progress-bar">
+                <div class="step step-done">
+                    <div class="step-circle">✓</div>
+                    <span>Select Model</span>
+                </div>
+                <div class="step-line step-line-done"></div>
+                <div class="step step-active">
+                    <div class="step-circle">2</div>
+                    <span>Select Variant</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <span>Your Details</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step">
+                    <div class="step-circle">4</div>
+                    <span>Confirm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <template if:true={isLoading}>
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Loading variants...</p>
+            </div>
+        </template>
+
+        <!-- Variants Grid -->
+        <div class="variants-container">
+            <div class="variants-grid">
+                <template for:each={variants}
+                          for:item="variant">
+                    <div key={variant.Id}
+                         class="variant-card"
+                         data-id={variant.Id}
+                         data-name={variant.Name}
+                         onclick={handleVariantClick}>
+
+                        <!-- Variant Badge -->
+                        <div class="variant-badge">
+                            {variant.Fuel_Type__c}
+                        </div>
+
+                        <!-- Variant Name -->
+                        <h3 class="variant-name">
+                            {variant.Name}
+                        </h3>
+
+                        <!-- Price -->
+                        <div class="variant-price">
+                            <span class="price-label">
+                                Starting at
+                            </span>
+                            <span class="price-value">
+                                ₹{variant.Price__c}
+                            </span>
+                        </div>
+
+                        <!-- Specs -->
+                        <div class="variant-specs">
+                            <div class="spec-item">
+                                <span class="spec-icon">⛽</span>
+                                <span>{variant.Fuel_Type__c}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-icon">⚙️</span>
+                                <span>{variant.Transmission__c}</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-icon">🎨</span>
+                                <span>{variant.Color_Options__c}</span>
+                            </div>
+                        </div>
+
+                        <!-- Select Button -->
+                        <button class="btn-select-variant"
+                                data-id={variant.Id}
+                                data-name={variant.Name}
+                                onclick={handleVariantClick}>
+                            Book Test Drive →
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,84 @@
+<template>
+    <div class="models-page">
+        <div class="page-header">
+            <div class="header-inner">
+                <div class="breadcrumb">
+                    <span onclick={goHome} class="bc-link">Home</span>
+                    <i class="ti ti-chevron-right bc-sep" aria-hidden="true"></i>
+                    <span class="bc-current">Models</span>
+                </div>
+                <h1 class="page-title">Explore Our Models</h1>
+                <p class="page-sub">Find the perfect vehicle for your lifestyle</p>
+            </div>
+        </div>
+
+        <div class="page-body">
+            <div class="body-inner">
+
+                <div class="filter-bar">
+                    <button class={allBtnClass} data-fuel="all" onclick={filterByFuel}>All Models</button>
+                    <button class={petrolBtnClass} data-fuel="Petrol" onclick={filterByFuel}>Petrol</button>
+                    <button class={dieselBtnClass} data-fuel="Diesel" onclick={filterByFuel}>Diesel</button>
+                    <button class={electricBtnClass} data-fuel="Electric" onclick={filterByFuel}>Electric</button>
+                    <button class={cngBtnClass} data-fuel="CNG" onclick={filterByFuel}>CNG</button>
+                    <div class="model-count">{filteredModels.length} model(s) found</div>
+                </div>
+
+                <template if:true={loading}>
+                    <div class="loading-wrap">
+                        <div class="spinner"></div>
+                        <p>Loading models...</p>
+                    </div>
+                </template>
+
+                <template if:true={isEmpty}>
+                    <div class="empty-state">
+                        <i class="ti ti-car-off" aria-hidden="true"></i>
+                        <p>No models found for the selected filter.</p>
+                        <button onclick={resetFilter}>Show All</button>
+                    </div>
+                </template>
+
+                <div class="models-grid">
+                    <template for:each={filteredModels} for:item="model">
+                        <div key={model.Id} class="model-card" data-id={model.Id} onclick={openModel}>
+                            <div class="card-img-wrap">
+                                <template if:true={model.displayImage}>
+                                    <img src={model.displayImage} alt={model.Name} class="card-img" loading="lazy"/>
+                                </template>
+                                <template if:false={model.displayImage}>
+                                    <div class="card-img-placeholder">
+                                        <i class="ti ti-car" aria-hidden="true"></i>
+                                    </div>
+                                </template>
+                                <div class="fuel-tags">
+                                    <template for:each={model.fuelTypes} for:item="fuel">
+                                        <span key={fuel} class="fuel-tag">{fuel}</span>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h2 class="card-name">{model.Name}</h2>
+                                <p class="card-desc">{model.Description__c}</p>
+                                <div class="card-meta">
+                                    <div class="meta-item">
+                                        <span class="meta-label">Starting from</span>
+                                        <span class="meta-val">₹{model.startingPrice}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <span class="meta-label">Variants</span>
+                                        <span class="meta-val">{model.variantCount}</span>
+                                    </div>
+                                </div>
+                                <button class="btn-details" data-id={model.Id} onclick={openModel}>
+                                    View Details <i class="ti ti-arrow-right" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,67 @@
+<template>
+    <div class="hero">
+        <!-- Loading state -->
+        <template if:true={isLoading}>
+            <div class="hero-loading">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Slides from Salesforce -->
+        <template if:false={isLoading}>
+            <div class="hero-slides" style={slideTransform}>
+                <template for:each={slides} for:item="slide">
+                    <div key={slide.id} class="hero-slide">
+                        <template if:true={slide.img}>
+                            <img class="hero-bg" src={slide.img} alt={slide.name}/>
+                        </template>
+                        <template if:false={slide.img}>
+                            <div class="hero-bg hero-bg-ph"></div>
+                        </template>
+                        <div class="hero-overlay"></div>
+                        <div class="hero-content">
+                            <template if:true={slide.fuelType}>
+                                <div class="hero-eyebrow">
+                                    <span></span>{slide.fuelType}
+                                </div>
+                            </template>
+                            <h1 class="hero-h1">{slide.name}</h1>
+                            <p class="hero-p">{slide.desc}</p>
+                            <template if:true={slide.price}>
+                                <p class="hero-price">Starting ₹{slide.price}</p>
+                            </template>
+                            <div class="hero-btns">
+                                <button class="btn-hr"
+                                    data-id={slide.modelId}
+                                    onclick={handleBook}>
+                                    Book Test Drive
+                                </button>
+                                <button class="btn-ho" onclick={handleBrowse}>
+                                    Explore Models
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <template if:true={slides.length}>
+                <button class="harr l" onclick={prevSlide}>&#8592;</button>
+                <button class="harr r" onclick={nextSlide}>&#8594;</button>
+                <div class="hero-dots">
+                    <template for:each={dots} for:item="dot">
+                        <button key={dot.idx} class={dot.cls}
+                            data-idx={dot.idx} onclick={handleDot}>
+                        </button>
+                    </template>
+                </div>
+            </template>
+        </template>
+    </div>
+    <div class="stats-bar">
+        <div class="sitem"><div class="snum">13+</div><div class="slabel">Models</div></div>
+        <div class="sitem"><div class="snum">6</div><div class="slabel">EV Models</div></div>
+        <div class="sitem"><div class="snum">4M+</div><div class="slabel">Customers</div></div>
+        <div class="sitem"><div class="snum">500+</div><div class="slabel">Showrooms</div></div>
+        <div class="sitem"><div class="snum">75+</div><div class="slabel">Years</div></div>
+    </div>
+</template>

@@ -1,0 +1,87 @@
+<template>
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand" onclick={goDashboard}>
+                <div class="brand-logo">TM</div>
+                <div class="brand-text">
+                    <span class="brand-name">Tata Motors</span>
+                    <span class="brand-sub">Partner Portal</span>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <a class={dashClass}      onclick={goDashboard}>Dashboard</a>
+                <a class={leadsClass}     onclick={goLeads}>Leads</a>
+                <a class={tdClass}        onclick={goTestDrives}>Test Drives</a>
+                <a class={bookingsClass}  onclick={goBookings}>Bookings</a>
+                <template if:true={isManager}>
+                    <a class={approvalsClass} onclick={goApprovals}>
+                        Approvals
+                        <template if:true={hasPending}>
+                            <span class="nav-badge">{pendingCount}</span>
+                        </template>
+                    </a>
+                </template>
+                <a class={paymentsClass}  onclick={goPayments}>Payments</a>
+                <a class={customersClass} onclick={goCustomers}>Customers</a>
+                <template if:true={isManager}>
+                    <a class={modelsClass}  onclick={goModels}>Models</a>
+                    <a class={reportsClass} onclick={goReports}>Reports</a>
+                </template>
+            </div>
+
+            <div class="nav-right">
+                <div class="user-chip" onclick={toggleDropdown}>
+                    <div class="user-av">{userInitial}</div>
+                    <div class="user-info">
+                        <span class="user-name">{userName}</span>
+                        <span class="user-role-tag">{userRole}</span>
+                    </div>
+                    <span class="chevron">▾</span>
+                    <template if:true={showDropdown}>
+                        <div class="dropdown">
+                            <div class="drop-user">
+                                <div class="drop-av">{userInitial}</div>
+                                <div>
+                                    <div class="drop-name">{userName}</div>
+                                    <div class="drop-role">{userRole}</div>
+                                </div>
+                            </div>
+                            <div class="drop-line"></div>
+                            <a onclick={goProfile} class="drop-item">👤 My Profile</a>
+                            <div class="drop-line"></div>
+                            <a onclick={handleLogout} class="drop-item logout">🚪 Logout</a>
+                        </div>
+                    </template>
+                </div>
+                <button class="hamburger" onclick={toggleMobile}>☰</button>
+            </div>
+        </div>
+
+        <template if:true={showMobile}>
+            <div class="mobile-nav">
+                <a onclick={goDashboard}  class="mob-item">Dashboard</a>
+                <a onclick={goLeads}      class="mob-item">Leads</a>
+                <a onclick={goTestDrives} class="mob-item">Test Drives</a>
+                <a onclick={goBookings}   class="mob-item">Bookings</a>
+                <template if:true={isManager}>
+                    <a onclick={goApprovals} class="mob-item">
+                        Approvals
+                        <template if:true={hasPending}>
+                            <span class="mob-badge">{pendingCount}</span>
+                        </template>
+                    </a>
+                </template>
+                <a onclick={goPayments}   class="mob-item">Payments</a>
+                <a onclick={goCustomers}  class="mob-item">Customers</a>
+                <template if:true={isManager}>
+                    <a onclick={goModels}  class="mob-item">Models</a>
+                    <a onclick={goReports} class="mob-item">Reports</a>
+                </template>
+                <div class="mob-divider"></div>
+                <a onclick={goProfile}    class="mob-item">My Profile</a>
+                <a onclick={handleLogout} class="mob-item mob-logout">🚪 Logout</a>
+            </div>
+        </template>
+    </nav>
+</template>

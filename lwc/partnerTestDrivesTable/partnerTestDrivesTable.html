@@ -1,0 +1,44 @@
+<template>
+    <div class="table-card">
+        <template if:true={loading}><div class="loading-wrap"><div class="spinner"></div> Loading...</div></template>
+        <template if:true={empty}><div class="empty-state">🚗 No test drives found</div></template>
+        <template if:false={loading}>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Model / Variant</th>
+                        <th>Preferred Date</th>
+                        <th>City</th>
+                        <th>Assigned To</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={testDrives} for:item="td">
+                        <tr key={td.Id} class="table-row">
+                            <td>
+                                <div class="cell-title">{td.Lead__r.FirstName} {td.Lead__r.LastName}</div>
+                                <div class="cell-sub">{td.Lead__r.Phone}</div>
+                            </td>
+                            <td>
+                                <div class="cell-title">{td.Model__r.Name}</div>
+                                <div class="cell-sub">{td.Variant__r.Name}</div>
+                            </td>
+                            <td>{td.dateFormatted}</td>
+                            <td>{td.City__c}</td>
+                            <td>{td.Owner.Name}</td>
+                            <td><span class={td.statusClass}>{td.Status__c}</span></td>
+                            <td>
+                                <button class="btn-view" data-id={td.Id} onclick={handleAction}>
+                                    Actions
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </div>
+</template>

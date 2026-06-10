@@ -1,0 +1,32 @@
+<template>
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="header-inner">
+                <div>
+                    <h1>Customers</h1>
+                    <p>View and manage your customer profiles</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="body-inner">
+                <c-partner-customers-search
+                    onsearch={handleSearch}>
+                </c-partner-customers-search>
+                <div class="content-layout">
+                    <c-partner-customers-list
+                        customers={customers}
+                        loading={loading}
+                        oncustomerselect={handleCustomerSelect}>
+                    </c-partner-customers-list>
+                    <template if:true={selectedCustomerId}>
+                        <c-partner-customer-profile
+                            contact-id={selectedCustomerId}
+                            onclose={closeProfile}>
+                        </c-partner-customer-profile>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

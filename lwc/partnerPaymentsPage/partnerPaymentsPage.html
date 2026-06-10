@@ -1,0 +1,39 @@
+<template>
+    <div class="page-wrap">
+        <div class="page-header">
+            <div class="header-inner">
+                <div>
+                    <h1>Payments</h1>
+                    <p>Track all collected payments and outstanding balances</p>
+                </div>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="body-inner">
+                <c-partner-payment-summary summary={summary}></c-partner-payment-summary>
+                <div class="section-title-row">
+                    <h2>Payment History</h2>
+                    <select class="filter-select" onchange={handleMethodFilter}>
+                        <option value="all">All Methods</option>
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Card</option>
+                        <option value="Loan">Loan</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
+                </div>
+                <c-partner-payments-table
+                    payments={payments}
+                    loading={loading}>
+                </c-partner-payments-table>
+                <div class="section-title-row">
+                    <h2>Outstanding Balances</h2>
+                </div>
+                <c-partner-outstanding-list
+                    bookings={outstanding}
+                    loading={loadingOutstanding}>
+                </c-partner-outstanding-list>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,9 @@
+<template>
+    <div class="filter-bar">
+        <button class={allClass} data-filter="all" onclick={handleFilter}>All</button>
+        <button class={pendingClass} data-filter="Pending" onclick={handleFilter}>Pending</button>
+        <button class={approvedClass} data-filter="Approved" onclick={handleFilter}>Approved</button>
+        <button class={deliveredClass} data-filter="Delivered" onclick={handleFilter}>Delivered</button>
+        <button class={cancelledClass} data-filter="Cancelled" onclick={handleFilter}>Cancelled</button>
+    </div>
+</template>

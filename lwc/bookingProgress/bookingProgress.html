@@ -1,0 +1,17 @@
+<template>
+    <div class="bp-wrap">
+        <div class="bp-track">
+            <template for:each={steps} for:item="s">
+                <div key={s.label} class={s.cls}>
+                    <div class="bp-circle">
+                        <template if:true={s.done}>&#10003;</template>
+                        <template if:false={s.done}>{s.num}</template>
+                    </div>
+                    <div class="bp-label">{s.label}</div>
+                    <template if:false={s.last}><div class="bp-line"></div></template>
+                </div>
+            </template>
+        </div>
+        <div class="bp-status">Status: <strong>{status}</strong></div>
+    </div>
+</template>

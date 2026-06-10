@@ -1,0 +1,48 @@
+<template>
+    <div class="table-card">
+        <template if:true={loading}>
+            <div class="loading-wrap"><div class="spinner"></div> Loading leads...</div>
+        </template>
+        <template if:true={empty}>
+            <div class="empty-state">👥 No leads found</div>
+        </template>
+        <template if:false={loading}>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Model Interested</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={leads} for:item="lead">
+                        <tr key={lead.Id} class="table-row">
+                            <td class="name-cell">
+                                <div class="name-avatar">{lead.initial}</div>
+                                <div>
+                                    <div class="cell-title">{lead.FirstName} {lead.LastName}</div>
+                                    <div class="cell-sub">{lead.Email}</div>
+                                </div>
+                            </td>
+                            <td>{lead.Phone}</td>
+                            <td>{lead.modelName}</td>
+                            <td>{lead.City}</td>
+                            <td><span class={lead.statusClass}>{lead.Status}</span></td>
+                            <td>{lead.createdDate}</td>
+                            <td>
+                                <button class="btn-view" data-id={lead.Id} onclick={selectLead}>
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </div>
+</template>

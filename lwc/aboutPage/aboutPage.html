@@ -1,0 +1,165 @@
+<template>
+    <div class="about-page">
+
+        <!-- Header -->
+        <div class="page-header">
+            <div class="header-inner">
+                <div class="breadcrumb">
+                    <span onclick={goHome} class="bc-link">Home</span>
+                    <i class="ti ti-chevron-right bc-sep" aria-hidden="true"></i>
+                    <span class="bc-current">About Us</span>
+                </div>
+                <h1 class="page-title">About Tata Motors</h1>
+                <p class="page-sub">A legacy of innovation, safety, and trust since 1945</p>
+            </div>
+        </div>
+
+        <!-- Story -->
+        <section class="section story-section">
+            <div class="section-inner story-grid">
+                <div class="story-text">
+                    <div class="eyebrow">Our Story</div>
+                    <h2 class="section-title">Built on Vision.<br/>Driven by Purpose.</h2>
+                    <p>Tata Motors is India's largest automobile company and one of the top commercial vehicle manufacturers in the world. Founded in 1945, we have consistently led the way in innovation, safety, and sustainability.</p>
+                    <p>From the iconic Tata Nano to the award-winning Tata Nexon EV, we've always believed that great vehicles should be accessible to every Indian family.</p>
+                    <div class="story-stats">
+                        <div class="story-stat">
+                            <div class="ss-num">79+</div>
+                            <div class="ss-label">Years of Heritage</div>
+                        </div>
+                        <div class="story-stat">
+                            <div class="ss-num">1300+</div>
+                            <div class="ss-label">Service Centres</div>
+                        </div>
+                        <div class="story-stat">
+                            <div class="ss-num">175+</div>
+                            <div class="ss-label">Countries Served</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-img-wrap">
+                    <div class="story-img-box">
+                        <i class="ti ti-building-factory" aria-hidden="true"></i>
+                        <div class="img-caption">Tata Motors Manufacturing Plant</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="section timeline-section">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="eyebrow">Our Journey</div>
+                    <h2 class="section-title">Milestones Through the Years</h2>
+                </div>
+                <div class="timeline">
+                    <template for:each={milestones} for:item="m">
+                        <div key={m.year} class="timeline-item">
+                            <div class="tl-year">{m.year}</div>
+                            <div class="tl-dot"></div>
+                            <div class="tl-content">
+                                <div class="tl-title">{m.title}</div>
+                                <div class="tl-desc">{m.desc}</div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Vision Values -->
+        <section class="section mvv-section">
+            <div class="section-inner">
+                <div class="mvv-grid">
+                    <div class="mvv-card mission">
+                        <div class="mvv-icon"><i class="ti ti-target" aria-hidden="true"></i></div>
+                        <h3 class="mvv-title">Our Mission</h3>
+                        <p class="mvv-desc">To be passionate in anticipating and providing the best vehicles and experiences that excite our customers globally.</p>
+                    </div>
+                    <div class="mvv-card vision">
+                        <div class="mvv-icon"><i class="ti ti-eye" aria-hidden="true"></i></div>
+                        <h3 class="mvv-title">Our Vision</h3>
+                        <p class="mvv-desc">To be the most admired and responsible automotive company — delivering superior financial returns and delighting all stakeholders.</p>
+                    </div>
+                    <div class="mvv-card values">
+                        <div class="mvv-icon"><i class="ti ti-heart" aria-hidden="true"></i></div>
+                        <h3 class="mvv-title">Our Values</h3>
+                        <p class="mvv-desc">Integrity, Teamwork, Accountability, Customer Focus, and Excellence — these principles guide every vehicle we build.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Awards -->
+        <section class="section awards-section">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="eyebrow">Recognition</div>
+                    <h2 class="section-title">Awards &amp; Achievements</h2>
+                </div>
+                <div class="awards-grid">
+                    <div class="award-card">
+                        <div class="award-icon"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+                        <div class="award-title">5-Star Global NCAP</div>
+                        <div class="award-desc">Tata Nexon — India's safest car</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+                        <div class="award-title">Best EV Brand</div>
+                        <div class="award-desc">India's #1 electric vehicle manufacturer</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="ti ti-award" aria-hidden="true"></i></div>
+                        <div class="award-title">Car of the Year</div>
+                        <div class="award-desc">Multiple ICOTY awards 2021–2024</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="ti ti-leaf" aria-hidden="true"></i></div>
+                        <div class="award-title">Green Initiative</div>
+                        <div class="award-desc">Committed to carbon neutrality by 2040</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="section contact-section">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="eyebrow">Get in Touch</div>
+                    <h2 class="section-title">Contact Us</h2>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="ti ti-phone" aria-hidden="true"></i></div>
+                        <h3 class="contact-title">Customer Care</h3>
+                        <p>1800 209 7979</p>
+                        <p class="contact-note">Toll-free · Mon–Sat 9AM–6PM</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="ti ti-mail" aria-hidden="true"></i></div>
+                        <h3 class="contact-title">Email Us</h3>
+                        <p>support@tatamotors.com</p>
+                        <p class="contact-note">We reply within 24 hours</p>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+                        <h3 class="contact-title">Head Office</h3>
+                        <p>Bombay House, 24 Homi Mody Street</p>
+                        <p class="contact-note">Mumbai 400 001, Maharashtra</p>
+                    </div>
+                </div>
+                <div class="cta-wrap">
+                    <button class="btn-primary" onclick={goTestDrive}>
+                        <i class="ti ti-calendar" aria-hidden="true"></i> Book a Test Drive
+                    </button>
+                    <button class="btn-outline" onclick={goModels}>
+                        Explore Models
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</template>
